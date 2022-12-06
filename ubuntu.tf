@@ -1,7 +1,7 @@
 
 resource "aws_instance" "ubuntu" {
   ami           = "ami-0574da719dca65348"
-  instance_type = "t2.micro"
+  instance_type = "t3.small"
   count = 1
 
   user_data = "${file("script-ubuntu.sh")}"

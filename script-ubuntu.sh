@@ -49,18 +49,8 @@ input {
 
 filter {
   grok { 
-    match => { "message" => "%%{SYSLOGTIMESTAMP:timestamp} %%{SYSLOGHOST:hostname} %%{DATA:program}: %%{GREEDYDATA:message}" }
-    overwrite => [ "message" ]      
+    match => { "message" => "%{SYSLOGTIMESTAMP:timestamp} %{SYSLOGHOST:hostname} %{DATA:program}: %{GREEDYDATA:txt}" }    
    }
-  json {
-    source => "message"
-  }
-  mutate {
-    add_field => {
-      "[data][type]" => "logs"
-      "[data][dataset]" => "syslog"
-    }
-  }
 }
 
 
