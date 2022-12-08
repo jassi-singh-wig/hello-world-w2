@@ -8,7 +8,7 @@ resource "aws_instance" "web" {
 
 #   key_name = "helloworld"
 
-  security_groups = [aws_security_group.allow_ssh.name]
+  security_groups = [aws_security_group.allow_all.name]
 
   tags = {
     Name = "HelloWorld"

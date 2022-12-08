@@ -9,7 +9,7 @@ resource "aws_instance" "ubuntu" {
 
   # key_name = "ubuntu"
 
-  security_groups = [aws_security_group.allow_ssh.name]
+  security_groups = [aws_security_group.allow_all.name]
 
   tags = {
     Name = "HelloWorld-ubuntu"

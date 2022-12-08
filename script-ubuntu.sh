@@ -15,6 +15,13 @@ echo "deb https://artifacts.elastic.co/packages/8.x/apt stable main" |  tee -a /
 apt-get update -y
 apt-get install logstash=$VERSION -y 
 
+mv /etc/logstash/logstash.yml /etc/logstash/logstash_backup.yml
+
+cat <<EOF > /etc/logstash/logstash.yml 
+path.data: /var/lib/logstash
+api.http.host: 0.0.0.0
+path.logs: /var/log/logstash
+EOF
 
 cat <<EOF > /etc/logstash/pipelines.yml
 - pipeline.id: start-pipeline

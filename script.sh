@@ -28,8 +28,16 @@ EOF
 
 # sudo yum repolist 
 # sudo yum repo-pkgs logstash-8.x list --show-duplicates
-sudo yum install logstash-$VERSION.x86_64 -y 
+sudo yum install logstash-$VERSION.$(arch) -y 
 
+
+mv /etc/logstash/logstash.yml /etc/logstash/logstash_backup.yml
+
+cat <<EOF > /etc/logstash/logstash.yml 
+path.data: /var/lib/logstash
+api.http.host: 0.0.0.0
+path.logs: /var/log/logstash
+EOF
 
 # https://www.elastic.co/guide/en/logstash/current/multiple-pipelines.html
 
