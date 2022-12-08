@@ -4,7 +4,7 @@ exec >> /var/log/user-data.log 2>&1
 
 HOME="/home/ec2-user"
 
-# VERSION=1:8.5.0-1
+VERSION=8.5.0-1
 
 # cd $HOME
 # wget https://artifacts.elastic.co/downloads/logstash/logstash-$VERSION-linux-x86_64.tar.gz 
@@ -27,8 +27,8 @@ type=rpm-md
 EOF
 
 # sudo yum repolist 
-# sudo yum repo-pkgs logstash-8.x list
-sudo yum install logstash -y 
+# sudo yum repo-pkgs logstash-8.x list --show-duplicates
+sudo yum install logstash-$VERSION.x86_64 -y 
 
 
 # https://www.elastic.co/guide/en/logstash/current/multiple-pipelines.html

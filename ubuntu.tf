@@ -18,7 +18,7 @@ resource "aws_instance" "ubuntu" {
 
 
 output "instances-ubuntu" {
-  value       = "${aws_instance.ubuntu.*.private_ip}"
+  value       = "${aws_instance.ubuntu.*.public_ip}"
   description = "PrivateIP address details of ubuntu instance"
 }
 
