@@ -21,6 +21,8 @@ cat <<EOF > /etc/logstash/logstash.yml
 path.data: /var/lib/logstash
 api.http.host: 0.0.0.0
 path.logs: /var/log/logstash
+dead_letter_queue.enable: true
+dead_letter_queue.max_bytes: 1mb
 EOF
 
 cat <<EOF > /etc/logstash/pipelines.yml

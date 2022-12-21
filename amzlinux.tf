@@ -1,5 +1,32 @@
+data "aws_ami" "awslinux" {
+  most_recent      = true
+  owners           = ["amazon"]
+
+  filter {
+    name   = "name"
+    values = ["amzn2-ami-kernel*"]
+  }
+
+  filter {
+    name   = "root-device-type"
+    values = ["ebs"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+
+  filter {
+    name   = "architecture"
+    values = ["x86_64"]
+  }
+
+}
+
+
 resource "aws_instance" "web" {
-  ami           = "ami-0b0dcb5067f052a63"
+  ami           = data.aws_ami.awslinux.id 
   instance_type = "t3.small"
   count = 1
 
@@ -18,5 +45,5 @@ resource "aws_instance" "web" {
 
 output "instances" {
   value       = "${aws_instance.web.*.public_ip}"
-  description = "PrivateIP address details"
+  description = "PublicIP address details"
 }
