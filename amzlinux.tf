@@ -24,16 +24,48 @@ data "aws_ami" "awslinux" {
 
 }
 
+data "template_cloudinit_config" "cloudinit_helloworld" {
+  gzip          = false
+  base64_encode = false
+
+  part {
+    content_type = "text/cloud-config"
+    content = templatefile("scripts/cloud-config.txt",{})
+  }
+
+  part {
+    content_type = "text/x-shellscript"
+    content = templatefile("scripts/filebeat.sh",
+    {
+      VERSION = "8.5.0-1"
+    }
+    )
+  }
+
+  part {
+    content_type = "text/x-shellscript"
+    content = templatefile("scripts/logstash.sh",
+    {
+      VERSION = "8.5.0-1"
+    }
+    )
+  }
+
+  part {
+    content_type = "text/x-shellscript"
+    content = templatefile("scripts/app.sh",{})
+  }
+  
+}
 
 resource "aws_instance" "web" {
   ami           = data.aws_ami.awslinux.id 
   instance_type = "t3.small"
   count = 1
 
-  user_data = "${file("script.sh")}"
+  # user_data = "${file("script.sh")}"
+  user_data = base64encode(data.template_cloudinit_config.cloudinit_helloworld.rendered)
   user_data_replace_on_change = true
-
-#   key_name = "helloworld"
 
   security_groups = [aws_security_group.allow_all.name]
 
