@@ -22,7 +22,7 @@ root_logger.addHandler(handler)
 
 i = 1
 while i > 0:
-    logging.info('%s: This message line number is %s', str(datetime.datetime.now().strftime("%Y-%m-%d'T'%H:%M:%S.%fZ")), str(i))
+    logging.info('%s: This message line number is %s', str(datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S.%fZ")), str(i))
     time.sleep(1)
     i = i + 1
 

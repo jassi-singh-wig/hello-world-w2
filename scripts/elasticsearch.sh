@@ -25,7 +25,6 @@ cluster.initial_master_nodes: ["$(hostname)"]
 http.host: 0.0.0.0
 EOF
 
-
 systemctl start elasticsearch.service
 systemctl enable elasticsearch.service
 systemctl status elasticsearch.service

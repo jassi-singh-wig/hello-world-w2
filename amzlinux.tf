@@ -70,21 +70,27 @@ data "template_cloudinit_config" "cloudinit_helloworld" {
     content = templatefile("scripts/app.sh",{})
   }
   
+  part {
+    content_type = "text/x-shellscript"
+    content = templatefile("scripts/cw-agent.sh",{})
+  }
 }
 
 resource "aws_instance" "web" {
-  ami           = data.aws_ami.awslinux.id 
-  instance_type = "t3.medium"
-  count = 1
-
-  # user_data = "${file("script.sh")}"
-  user_data = base64encode(data.template_cloudinit_config.cloudinit_helloworld.rendered)
+  ami                         = data.aws_ami.awslinux.id 
+  instance_type               = "t3.medium"
+  count                       = 1
+  # user_data                 = "${file("script.sh")}"
+  user_data                   = base64encode(data.template_cloudinit_config.cloudinit_helloworld.rendered)
   user_data_replace_on_change = true
-
-  security_groups = [aws_security_group.allow_all.name]
-
+  security_groups             = [aws_security_group.allow_all.name]
+  iam_instance_profile        = aws_iam_instance_profile.cloudwatch.name
+  root_block_device {
+    volume_type               = "gp2"
+    volume_size               = 30
+  }
   tags = {
-    Name = "HelloWorld"
+    Name                      = "HelloWorld"
   }
 }
 

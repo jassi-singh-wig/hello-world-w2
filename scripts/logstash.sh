@@ -29,6 +29,33 @@ cat <<EOF > /etc/logstash/pipelines.yml
   queue.type: persisted
 EOF
 
+cat <<EOF > /etc/logstash/logstash-helloworld.json
+{
+  "index_patterns" : ["hello*"],
+  "priority" : 1,
+  "template": {
+    "settings" : {
+      "number_of_replicas": 0
+    },
+    "mappings": {
+    "_source": {
+      "enabled": true
+    },
+    "properties": {
+      "parsed-message": {
+        "properties": {
+          "datetime": {
+            "type": "date",
+            "format": "strict_date_optional_time_nanos"
+          }
+        }
+      }
+    }
+  }
+  }
+}
+EOF
+
 cat <<EOF > /etc/logstash/conf.d/p1.conf
 input {
   beats {
@@ -70,6 +97,10 @@ output {
       elasticsearch {
         hosts => "http://localhost:9200"
         index => "hello-world-jassi"
+        manage_template => true
+        template => "/etc/logstash/logstash-helloworld.json"
+        template_name => "logstash-helloworld"
+        template_overwrite => true
       }
 }
 EOF
