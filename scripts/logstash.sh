@@ -67,9 +67,11 @@ input {
 
 
 output {
- file {
-    path => "/tmp/output-logstash.log"
-  }
+      elasticsearch {
+        hosts => "http://localhost:9200"
+        index => "hello-world-jassi"
+      }
+    }
 }
 EOF
 
