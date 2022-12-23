@@ -71,7 +71,6 @@ output {
         hosts => "http://localhost:9200"
         index => "hello-world-jassi"
       }
-    }
 }
 EOF
 
